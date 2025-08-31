@@ -1,0 +1,61 @@
+# Quantumult X 自动化分流规则
+
+# 1. AI 平台 -> 走「AI专用」策略
+DOMAIN-KEYWORD, openai, AI专用
+DOMAIN-KEYWORD, claude, AI专用
+DOMAIN-KEYWORD, gemini, AI专用
+DOMAIN-KEYWORD, grok, AI专用
+DOMAIN-KEYWORD, metaai, AI专用
+DOMAIN-KEYWORD, copilot, AI专用
+DOMAIN-KEYWORD, perplexity, AI专用
+DOMAIN-KEYWORD, notebooklm, AI专用
+DOMAIN-KEYWORD, mistral, AI专用
+DOMAIN-KEYWORD, cohere, AI专用
+DOMAIN-KEYWORD, stability, AI专用
+DOMAIN-KEYWORD, huggingface, AI专用
+DOMAIN-KEYWORD, runwayml, AI专用
+DOMAIN-KEYWORD, replit, AI专用
+DOMAIN-SUFFIX, ai.com, AI专用
+
+# 2. 流媒体
+# YouTube
+DOMAIN-SUFFIX, youtube.com, YouTube专用
+DOMAIN-SUFFIX, youtu.be, YouTube专用
+DOMAIN-SUFFIX, googlevideo.com, YouTube专用
+# Netflix, Disney+, etc. -> 香港/新加坡优先
+DOMAIN-KEYWORD, netflix, 流媒体
+DOMAIN-KEYWORD, disneyplus, 流媒体
+DOMAIN-KEYWORD, hbo, 流媒体
+DOMAIN-KEYWORD, hulu, 流媒体
+DOMAIN-SUFFIX, nflxvideo.net, 流媒体
+DOMAIN-SUFFIX, dssott.com, 流媒体
+
+# 3. Google 系列 -> 走「Google专用」策略
+DOMAIN-KEYWORD, google, Google专用
+DOMAIN-KEYWORD, gmail, Google专用
+DOMAIN-SUFFIX, gstatic.com, Google专用
+DOMAIN-SUFFIX, googleapis.com, Google专用
+DOMAIN-SUFFIX, googleusercontent.com, Google专用
+
+# 4. 社交媒体 -> 走「社交媒体」策略
+DOMAIN-KEYWORD, twitter, 社交媒体
+DOMAIN-SUFFIX, x.com, 社交媒体
+DOMAIN-KEYWORD, facebook, 社交媒体
+DOMAIN-KEYWORD, instagram, 社交媒体
+
+# 5. 国内网站、App、局域网 -> 直连 (规则顺序很重要)
+# 局域网和本地
+IP-CIDR, 192.168.0.0/16, DIRECT
+IP-CIDR, 10.0.0.0/8, DIRECT
+IP-CIDR, 172.16.0.0/12, DIRECT
+IP-CIDR, 127.0.0.1/8, DIRECT
+# 中国大陆域名和IP
+DOMAIN-SUFFIX, cn, DIRECT
+GEOIP, CN, DIRECT
+
+# 6. 其余海外网站 (作为默认规则放在最后)
+# 所有未被以上规则匹配到的非中国大陆IP流量，都走「国外常规」策略
+GEOIP, !CN, 国外常规
+
+# 最终兜底规则，所有其他流量都交由 PROXY 策略组处理
+FINAL, PROXY
